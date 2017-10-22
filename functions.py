@@ -27,11 +27,7 @@ def TFListLTN(l, list_doc):
             else:
                 lis[l.index(i)].append(1)
     return lis
-    # for x in ls:
-    #     if x != 0:
-    #         final_ls[c] = 1 + math.log(ls[c])
-    #     else:
-    #         final_ls[c] = 0
+
 
 def IDFListLTN(l, number_documents, list_doc):
     ls = [0] * len(l)

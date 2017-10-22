@@ -41,13 +41,3 @@ with open("./Text_Only_Ascii_Coll_MWI_NoSem") as fp:
         print (key, "=>", val)
 
     #print (IDFList(list0, number_documents, soup.find_all("doc")))
-
-    # for doc in (soup.find_all("doc")):
-    #     for i in
-    #     if findWholeWord('oil')(doc.contents[1]):
-    #         print ("Zbrah")
-        #count = sum(1 for _ in re.finditer(r'\b%s\b' % re.escape("oil"), doc.contents[1]))
-        #print (count)
-
-        #print(doc.contents[1])
-        #doc.find("oil")
