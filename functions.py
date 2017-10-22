@@ -23,15 +23,15 @@ def TFListLTN(l, list_doc):
         for i in l:
             count = sum(1 for _ in re.finditer(r'\b%s\b' % re.escape(i), doc.contents[1]))
             if count != 0:
-                lis[l.index(i)].append(1 + math.log(count))
+                lis[l[l.index(i)]].append(1 + math.log(count))
             else:
-                lis[l.index(i)].append(1)
+                lis[l[l.index(i)]].append(0)
     return lis
 
 
 def IDFListLTN(l, number_documents, list_doc):
     ls = [0] * len(l)
-    final_ls = [0] * len(l)
+    final_ls = {}
     c = 0
     for doc in list_doc:
         for i in l:
@@ -39,10 +39,10 @@ def IDFListLTN(l, number_documents, list_doc):
                 ls[l.index(i)] += 1
     for x in ls:
         if x != 0:
-            final_ls[c] = 1 + math.log(number_documents/x)
+            final_ls[l[c]] = math.log(number_documents/x)
             c += 1
         else:
-            final_ls[c] = 1 + math.log(number_documents)
+            final_ls[l[c]] = math.log(number_documents)
             c += 1
     return final_ls
 

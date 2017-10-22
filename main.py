@@ -11,6 +11,16 @@ list3 = ["web","link","network","analysis"]
 list4 = ["web","ranking","scoring","algorithm"]
 list5 = ["supervised","machine","learning","algorithm"]
 list6 = ["operating","system","mutual","exclusion"]
+listoflists = []
+listoflists.append(list0)
+listoflists.append(list1)
+listoflists.append(list2)
+listoflists.append(list3)
+listoflists.append(list4)
+listoflists.append(list5)
+listoflists.append(list6)
+
+
 biglist =   ['algorithm','benefit','operating','supervised','film','actors',
             'learning','analysis','link','models','system','machine',
             'exclusion','information','retrieval','health','oil','mutual',
@@ -23,7 +33,7 @@ number_request = 0
 number_result = 1
 #./Text_Only_Ascii_Coll_MWI_NoSem
 
-with open("./Text_Only_Ascii_Coll_MWI_NoSem") as fp:
+with open("../Text_Only_Ascii_Coll_MWI_NoSem") as fp:
     soup = BeautifulSoup(fp, "lxml")
     number_documents = len(soup.find_all("doc"))
     # with open("./results", "w") as res:
@@ -37,7 +47,32 @@ with open("./Text_Only_Ascii_Coll_MWI_NoSem") as fp:
     #             "/article[1]" + "\n"
     #              )
 
-    for key,val in (TFListLTN(biglist, soup.find_all("doc"))).items():
-        print (key, "=>", val)
+    TFList = TFListLTN(biglist, soup.find_all("doc"))
+    IDFList = IDFListLTN(biglist, number_documents, soup.find_all("doc"))
 
-    #print (IDFList(list0, number_documents, soup.find_all("doc")))
+# Create TF IDF List of words in documents
+for i in TFList.keys():
+    TFList[i][:] = [x * IDFList[i] for x in TFList[i]]
+
+
+# Create TF IDF List of words in query
+
+TFIDFListQueries = defaultdict(list)
+for l in listoflists:
+    for i in l:
+        TFIDFListQueries[listoflists.index(l)].append((1/len(l))*IDFList[i])
+
+
+
+
+
+###### DEBUG #######
+
+#for key,val in (TFList.items()):
+#    print (key, "=>", val)
+#
+#for key,val in (TFIDFListQueries.items()):
+#    print (key, "=>", val)
+#
+#for key,val in (IDFList.items()):
+#    print (key, "=>", val)
