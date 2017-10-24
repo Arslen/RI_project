@@ -1,6 +1,9 @@
 from bs4 import BeautifulSoup
 import re
 import math
+
+from builtins import print
+
 from functions import *
 
 
@@ -32,20 +35,14 @@ list_requests = ["2009011", "2009036", "2009067", "2009073", "2009074", "2009078
 number_request = 0
 number_result = 1
 #./Text_Only_Ascii_Coll_MWI_NoSem
-
-with open("../Text_Only_Ascii_Coll_MWI_NoSem") as fp:
-    soup = BeautifulSoup(fp, "lxml")
+with open("../Text_Only_Ascii_Coll_MWI_NoSem") as infile:
+    soup = BeautifulSoup(infile, "lxml")
     number_documents = len(soup.find_all("doc"))
-    # with open("./results", "w") as res:
-    #     res.write(
-    #             list_requests[number_request] + " " +
-    #             "Q0" + " " +
-    #              + " " +
-    #             number_result + " " +
-    #             score + " " +
-    #             "ArslenMarouane" + " " +
-    #             "/article[1]" + "\n"
-    #              )
+    number_document = len(soup.find_all("9997248"))
+    print(number_documents)
+    print(number_document)
+    with open("./runs/ExempleRunArslenMarouane_01_01_Text_Only.txt", "w") as res:
+         res.write(list_requests[number_request] + " " +"Q0" + " " +str(number_document) + " " + str(0.12) + " " +"ArslenMarouane" + " " +"/article[1]" + "\n")
 
     TFList = TFListLTN(biglist, soup.find_all("doc"))
     IDFList = IDFListLTN(biglist, number_documents, soup.find_all("doc"))
@@ -62,8 +59,7 @@ for l in listoflists:
     for i in l:
         TFIDFListQueries[listoflists.index(l)].append((1/len(l))*IDFList[i])
 
-
-
+print("okok")
 
 
 ###### DEBUG #######
