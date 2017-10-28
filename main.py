@@ -35,29 +35,36 @@ list_requests = ["2009011", "2009036", "2009067", "2009073", "2009074", "2009078
 number_request = 0
 number_result = 1
 #./Text_Only_Ascii_Coll_MWI_NoSem
-with open("../Text_Only_Ascii_Coll_MWI_NoSem") as infile:
-    soup = BeautifulSoup(infile, "lxml")
-    number_documents = len(soup.find_all("doc"))
-    number_document = len(soup.find_all("9997248"))
-    print(number_documents)
-    print(number_document)
-    with open("./runs/ExempleRunArslenMarouane_01_01_Text_Only.txt", "w") as res:
-         res.write(list_requests[number_request] + " " +"Q0" + " " +str(number_document) + " " + str(0.12) + " " +"ArslenMarouane" + " " +"/article[1]" + "\n")
-
-    TFList = TFListLTN(biglist, soup.find_all("doc"))
-    IDFList = IDFListLTN(biglist, number_documents, soup.find_all("doc"))
-
+for request in list_requests:
+    with open("../Text_Only_Ascii_Coll_MWI_NoSem") as infile:
+        soup = BeautifulSoup(infile, "lxml")
+        number_documents = len(soup.find_all("doc"))
+        vars= soup.find_all("doc")
+        i=1
+        for el in vars:
+            docno= el.find("docno").contents[0]
+            score = 1.23
+            with open("./runs/ExempleRunArslenMarouane_01_01_Text_Only.txt", "a") as res:
+                if i>1500:
+                    break
+                res.write(str(request) + " " + "Q0" + " " + str(docno) + " " + str(i) + " " + str(score) + " " + "ArslenMarouane" + " " + "/article[1]" + "\n")
+                i=i+1
+        infile.close()
+        print(request)
+        #TFList = TFListLTN(biglist, soup.find_all("doc"))
+        #IDFList = IDFListLTN(biglist, number_documents, soup.find_all("doc"))
+print("done")
 # Create TF IDF List of words in documents
-for i in TFList.keys():
-    TFList[i][:] = [x * IDFList[i] for x in TFList[i]]
+#for i in TFList.keys():
+    #TFList[i][:] = [x * IDFList[i] for x in TFList[i]]
 
 
 # Create TF IDF List of words in query
 
-TFIDFListQueries = defaultdict(list)
-for l in listoflists:
-    for i in l:
-        TFIDFListQueries[listoflists.index(l)].append((1/len(l))*IDFList[i])
+#TFIDFListQueries = defaultdict(list)
+#for l in listoflists:
+    #for i in l:
+        #TFIDFListQueries[listoflists.index(l)].append((1/len(l))*IDFList[i])
 
 print("okok")
 
