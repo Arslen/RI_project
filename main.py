@@ -42,18 +42,30 @@ for request in list_requests:
         soup = BeautifulSoup(infile, "lxml")
         number_documents = len(soup.find_all("doc"))
         vars= soup.find_all("doc")
+        print(len(vars))
         i=1
         for el in vars:
             docno= el.find("docno").contents[0]
-            score=1
+            score=0
             for x in el.find_all(text=True, recursive=False):
                 a = Counter(x.split()).most_common()
                 dict={}
                 for key, value in a:
                     if key in list_queries[index]:
                         dict[key]=value
-                if (not dict == False):
-                    print(len(Counter(x.split())))
+                if len(dict.keys())!= 0:
+                    print(dict)
+                    tf = 0
+                    idf = 0
+                    score = 0
+                    words = len(Counter(x.split()))
+                    for key_dict, value_dict in dict.items():
+                        print(key_dict, str(value_dict))
+                        a=int(value_dict)
+                        tf = tf + 1 + log(a)
+                        idf = idf + log(9804 / a)
+                        score = (tf * idf) + score
+                    print(score)
                 else:
                     print("fuck off")
 
@@ -63,8 +75,6 @@ for request in list_requests:
                         break
                     res.write(str(request) + " " + "Q0" + " " + str(docno) + " " + str(i) + " " + str(score) + " " + "ArslenMarouane" + " " + "/article[1]" + "\n")
                     i=i+1
-            else:
-                break
         infile.close()
         print(request)
         #TFList = TFListLTN(biglist, soup.find_all("doc"))
