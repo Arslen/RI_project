@@ -1,9 +1,10 @@
+from collections import Counter
+
 from bs4 import BeautifulSoup
 import re
-import math
+from math import *
 
 from builtins import print
-
 from functions import *
 
 
@@ -22,8 +23,8 @@ listoflists.append(list3)
 listoflists.append(list4)
 listoflists.append(list5)
 listoflists.append(list6)
-
-
+list_queries= [["olive","oil","health","benefit"],["notting","hill","film","actors"],["probabilistic","models","in","information","retrieval"]
+    ,["web","link","network","analysis"],["web","ranking","scoring","algorithm"],["supervised","machine","learning","algorithm"],["operating","system","mutual","exclusion"]]
 biglist =   ['algorithm','benefit','operating','supervised','film','actors',
             'learning','analysis','link','models','system','machine',
             'exclusion','information','retrieval','health','oil','mutual',
@@ -36,6 +37,7 @@ number_request = 0
 number_result = 1
 #./Text_Only_Ascii_Coll_MWI_NoSem
 for request in list_requests:
+    index=list_requests.index(request)
     with open("../Text_Only_Ascii_Coll_MWI_NoSem") as infile:
         soup = BeautifulSoup(infile, "lxml")
         number_documents = len(soup.find_all("doc"))
@@ -43,12 +45,26 @@ for request in list_requests:
         i=1
         for el in vars:
             docno= el.find("docno").contents[0]
-            score = 1.23
-            with open("./runs/ExempleRunArslenMarouane_01_01_Text_Only.txt", "a") as res:
-                if i>1500:
-                    break
-                res.write(str(request) + " " + "Q0" + " " + str(docno) + " " + str(i) + " " + str(score) + " " + "ArslenMarouane" + " " + "/article[1]" + "\n")
-                i=i+1
+            score=1
+            for x in el.find_all(text=True, recursive=False):
+                a = Counter(x.split()).most_common()
+                dict={}
+                for key, value in a:
+                    if key in list_queries[index]:
+                        dict[key]=value
+                if (not dict == False):
+                    print(len(Counter(x.split())))
+                else:
+                    print("fuck off")
+
+            if score != 0:
+                with open("./runs/ExempleRunArslenMarouane_01_01_Text_Only.txt", "a") as res:
+                    if i>1500:
+                        break
+                    res.write(str(request) + " " + "Q0" + " " + str(docno) + " " + str(i) + " " + str(score) + " " + "ArslenMarouane" + " " + "/article[1]" + "\n")
+                    i=i+1
+            else:
+                break
         infile.close()
         print(request)
         #TFList = TFListLTN(biglist, soup.find_all("doc"))
