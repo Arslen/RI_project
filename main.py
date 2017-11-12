@@ -1,6 +1,7 @@
 from collections import Counter
-
+import pandas as pd
 from bs4 import BeautifulSoup
+from sklearn.feature_extraction.text import TfidfVectorizer
 import re
 from math import *
 
@@ -38,45 +39,55 @@ number_result = 1
 #./Text_Only_Ascii_Coll_MWI_NoSem
 for request in list_requests:
     index=list_requests.index(request)
+    df = pd.DataFrame([])
     with open("../Text_Only_Ascii_Coll_MWI_NoSem") as infile:
         soup = BeautifulSoup(infile, "lxml")
         number_documents = len(soup.find_all("doc"))
-        vars= soup.find_all("doc")
+        vars = soup.find_all("doc")
         print(len(vars))
         i=1
         for el in vars:
-            docno= el.find("docno").contents[0]
+            docno = el.find("docno").contents[0]
             score=0
             for x in el.find_all(text=True, recursive=False):
                 a = Counter(x.split()).most_common()
-                dict={}
+                temp_dict={}
+                array = []
                 for key, value in a:
                     if key in list_queries[index]:
-                        dict[key]=value
-                if len(dict.keys())!= 0:
-                    print(dict)
-                    tf = 0
-                    idf = 0
+                        temp_dict[key]=value
+                        array.append(key)
+                missing_words = set(list_queries[index])-set(array)
+
+                if len(temp_dict.keys())!= 0:
+                    dict = {}
+                    for word in missing_words:
+                        dict[word] = 0
+                    dict.update(temp_dict)
+                    data = pd.DataFrame([dict],index= [request],columns=dict.keys())
+                    df = df.append(data)
+                    '''tf = 0
+                    idf = 0 
                     score = 0
                     words = len(Counter(x.split()))
                     for key_dict, value_dict in dict.items():
                         print(key_dict, str(value_dict))
-                        a=int(value_dict)
+                        a = int(value_dict)
                         tf = tf + 1 + log(a)
                         idf = idf + log(9804 / a)
                         score = (tf * idf) + score
-                    print(score)
-                else:
-                    print("fuck off")
-
+                    print(score)'''
             if score != 0:
                 with open("./runs/ExempleRunArslenMarouane_01_01_Text_Only.txt", "a") as res:
                     if i>1500:
                         break
                     res.write(str(request) + " " + "Q0" + " " + str(docno) + " " + str(i) + " " + str(score) + " " + "ArslenMarouane" + " " + "/article[1]" + "\n")
                     i=i+1
-        infile.close()
+        df.loc['Total'] = df.sum()
         print(request)
+        df.to_csv("lets see.csv", sep='\t')
+        infile.close()
+
         #TFList = TFListLTN(biglist, soup.find_all("doc"))
         #IDFList = IDFListLTN(biglist, number_documents, soup.find_all("doc"))
 print("done")
