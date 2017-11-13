@@ -1,9 +1,11 @@
 from collections import Counter
+import numpy as np
 import pandas as pd
 from bs4 import BeautifulSoup
 from sklearn.feature_extraction.text import TfidfVectorizer
 import re
 from math import *
+import csv
 
 from builtins import print
 from functions import *
@@ -64,7 +66,7 @@ for request in list_requests:
                     for word in missing_words:
                         dict[word] = 0
                     dict.update(temp_dict)
-                    data = pd.DataFrame([dict],index= [request],columns=dict.keys())
+                    data = pd.DataFrame([dict],index= [docno],columns=dict.keys(), dtype=int)
                     df = df.append(data)
                     '''tf = 0
                     idf = 0 
@@ -77,15 +79,26 @@ for request in list_requests:
                         idf = idf + log(9804 / a)
                         score = (tf * idf) + score
                     print(score)'''
-            if score != 0:
-                with open("./runs/ExempleRunArslenMarouane_01_01_Text_Only.txt", "a") as res:
-                    if i>1500:
-                        break
-                    res.write(str(request) + " " + "Q0" + " " + str(docno) + " " + str(i) + " " + str(score) + " " + "ArslenMarouane" + " " + "/article[1]" + "\n")
-                    i=i+1
         df.loc['Total'] = df.sum()
         print(request)
-        df.to_csv("lets see.csv", sep='\t')
+        df['score']= 0
+        for i, row in df.iterrows():
+            score=0
+            for word in list_queries[index]:
+                if (row[word]!= 0) & (df.at['Total', word]!= 0) :
+                    score = score+(1+log(row[word])*(log(len(vars)/df.at['Total',word])))
+            row['score'] = float(score)
+            print(score)
+        df = df.sort_values(by=['score'], ascending=False)
+        f=1
+        for i, row in df.iterrows():
+            with open("./runs/ExempleRunArslenMarouane_01_01_Text_Only.txt", "a") as res:
+                if f > 1500:
+                    break
+                else:
+                    if i !="Total":
+                        res.write(str(request) + " " + "Q0" + " " + str(i) + " " + str(f) + " " + str(row['score']) + " " + "ArslenMarouane" + " " + "/article[1]" + "\n")
+                        f = f + 1
         infile.close()
 
         #TFList = TFListLTN(biglist, soup.find_all("doc"))
