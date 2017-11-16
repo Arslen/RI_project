@@ -1,7 +1,9 @@
 from collections import Counter
 import numpy as np
 import pandas as pd
+import operator
 from bs4 import BeautifulSoup
+from numpy.core.umath import NAN
 from sklearn.feature_extraction.text import TfidfVectorizer
 import re
 from math import *
@@ -46,7 +48,6 @@ for request in list_requests:
         soup = BeautifulSoup(infile, "lxml")
         number_documents = len(soup.find_all("doc"))
         vars = soup.find_all("doc")
-        print(len(vars))
         i=1
         for el in vars:
             docno = el.find("docno").contents[0]
@@ -66,7 +67,7 @@ for request in list_requests:
                     for word in missing_words:
                         dict[word] = 0
                     dict.update(temp_dict)
-                    data = pd.DataFrame([dict],index= [docno],columns=dict.keys(), dtype=int)
+                    data = pd.DataFrame([dict],index= [docno],columns=dict.keys())
                     df = df.append(data)
                     '''tf = 0
                     idf = 0 
@@ -80,24 +81,26 @@ for request in list_requests:
                         score = (tf * idf) + score
                     print(score)'''
         df.loc['Total'] = df.sum()
-        print(request)
-        df['score']= 0
+        #ltn function
+        score_dict = {}
         for i, row in df.iterrows():
             score=0
             for word in list_queries[index]:
                 if (row[word]!= 0) & (df.at['Total', word]!= 0) :
                     score = score+(1+log(row[word])*(log(len(vars)/df.at['Total',word])))
-            row['score'] = float(score)
-            print(score)
-        df = df.sort_values(by=['score'], ascending=False)
+            score_dict[i]=score
+        score_dict = sorted(score_dict.items(), key=operator.itemgetter(1), reverse=True)
+        score_dict.pop(0)
+        #df = df.sort_values(by=['score'], ascending=False)
+
         f=1
-        for i, row in df.iterrows():
-            with open("./runs/ExempleRunArslenMarouane_01_01_Text_Only.txt", "a") as res:
+        for i, row in score_dict:
+            with open("./runs/ArslenMarouane_01_01_ltn_text_Only.txt", "a") as res:
                 if f > 1500:
                     break
                 else:
                     if i !="Total":
-                        res.write(str(request) + " " + "Q0" + " " + str(i) + " " + str(f) + " " + str(row['score']) + " " + "ArslenMarouane" + " " + "/article[1]" + "\n")
+                        res.write(str(request) + " " + "Q0" + " " + str(i) + " " + str(f) + " " + str(row) + " " + "ArslenMarouane" + " " + "/article[1]" + "\n")
                         f = f + 1
         infile.close()
 
@@ -116,7 +119,6 @@ print("done")
     #for i in l:
         #TFIDFListQueries[listoflists.index(l)].append((1/len(l))*IDFList[i])
 
-print("okok")
 
 
 ###### DEBUG #######
