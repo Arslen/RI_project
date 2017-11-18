@@ -49,10 +49,15 @@ for request in list_requests:
         number_documents = len(soup.find_all("doc"))
         vars = soup.find_all("doc")
         i=1
+        number_of_words=0
+
         for el in vars:
             docno = el.find("docno").contents[0]
             score=0
+            word_of_doc=0
             for x in el.find_all(text=True, recursive=False):
+                word_of_doc = len(x.split())
+                number_of_words = number_of_words+ word_of_doc
                 a = Counter(x.split()).most_common()
                 temp_dict={}
                 array = []
@@ -68,7 +73,10 @@ for request in list_requests:
                         dict[word] = 0
                     dict.update(temp_dict)
                     data = pd.DataFrame([dict],index= [docno],columns=dict.keys())
+                    e = pd.Series(word_of_doc)
+                    data = data.assign(word_of_doc=e.values)
                     df = df.append(data)
+
                     '''tf = 0
                     idf = 0 
                     score = 0
@@ -93,9 +101,27 @@ for request in list_requests:
         score_dict.pop(0)
         #df = df.sort_values(by=['score'], ascending=False)
 
+        # bm25 function 232
+        score_dict = {}
+        b=0.75
+        k=1.85
+        for i, row in df.iterrows():
+            score=0
+            for word in list_queries[index]:
+                if (row[word]!= 0) & (df.at['Total', word]!= 0) :
+                    avdl=df.ix[i,"word_of_doc"]/number_of_words
+                    upper= ((1+k)*row[word]*(log((len(vars)-df.at['Total',word]+0.5)/(df.at['Total',word]+0.5))))
+                    bellow= row[word]+(k*((1-b)+(b*(number_documents/avdl))))
+                    score = score+(upper/bellow)
+            score_dict[i]=score
+        score_dict = sorted(score_dict.items(), key=operator.itemgetter(1), reverse=True)
+        score_dict.pop(0)
+
+
+
         f=1
         for i, row in score_dict:
-            with open("./runs/ArslenMarouane_01_01_ltn_text_Only.txt", "a") as res:
+            with open("./runs/ArslenMarouane_01_01_bm25_text_Only.txt", "a") as res:
                 if f > 1500:
                     break
                 else:
