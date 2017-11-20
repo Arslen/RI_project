@@ -104,13 +104,13 @@ for request in list_requests:
         # bm25 function 232
         score_dict = {}
         b=0.75
-        k=1.85
+        k=1.5
         for i, row in df.iterrows():
             score=0
             for word in list_queries[index]:
                 if (row[word]!= 0) & (df.at['Total', word]!= 0) :
                     avdl=df.ix[i,"word_of_doc"]/number_of_words
-                    upper= ((1+k)*row[word]*(log((len(vars)-df.at['Total',word]+0.5)/(df.at['Total',word]+0.5))))
+                    upper= ((1+k)*row[word])#*(log((len(vars)-df.at['Total',word]+0.5)/(df.at['Total',word]+0.5)))
                     bellow= row[word]+(k*((1-b)+(b*(number_documents/avdl))))
                     score = score+(upper/bellow)
             score_dict[i]=score
@@ -121,7 +121,7 @@ for request in list_requests:
 
         f=1
         for i, row in score_dict:
-            with open("./runs/ArslenMarouane_01_01_bm25_text_Only.txt", "a") as res:
+            with open("./runs/ArslenMarouane_03_05_bm25_articles_k1.5b0.75.txt", "a") as res:
                 if f > 1500:
                     break
                 else:
