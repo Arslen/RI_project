@@ -41,13 +41,16 @@ list_requests = ["2009011", "2009036", "2009067", "2009073", "2009074", "2009078
 number_request = 0
 number_result = 1
 #./Text_Only_Ascii_Coll_MWI_NoSem
-for request in list_requests:
-    index=list_requests.index(request)
-    df = pd.DataFrame([])
-    with open("../Text_Only_Ascii_Coll_MWI_NoSem") as infile:
-        soup = BeautifulSoup(infile, "lxml")
-        number_documents = len(soup.find_all("doc"))
-        vars = soup.find_all("doc")
+
+
+with open("../Text_Only_Ascii_Coll_MWI_NoSem") as infile:
+    soup = BeautifulSoup(infile, "lxml")
+    number_documents = len(soup.find_all("doc"))
+    vars = soup.find_all("doc")
+    list_dataframe=[]
+    for request in list_requests:
+        index = list_requests.index(request)
+        df = pd.DataFrame([])
         i=1
         number_of_words=0
 
@@ -89,8 +92,12 @@ for request in list_requests:
                         score = (tf * idf) + score
                     print(score)'''
         df.loc['Total'] = df.sum()
+        list_dataframe.append(df)
+    index=0
+    for df in list_dataframe:
         #ltn function
-        score_dict = {}
+        '''score_dict = {}
+        print(index)
         for i, row in df.iterrows():
             score=0
             for word in list_queries[index]:
@@ -100,7 +107,7 @@ for request in list_requests:
         score_dict = sorted(score_dict.items(), key=operator.itemgetter(1), reverse=True)
         score_dict.pop(0)
         #df = df.sort_values(by=['score'], ascending=False)
-
+        '''
         # bm25 function 232
         score_dict = {}
         b=0.75
@@ -121,14 +128,15 @@ for request in list_requests:
 
         f=1
         for i, row in score_dict:
-            with open("./runs/ArslenMarouane_03_05_bm25_articles_k1.5b0.75.txt", "a") as res:
+            with open("./runs/ArslenMarouane_04_02_bm25_articles_k1.5b0.75.txt", "a") as res:
                 if f > 1500:
                     break
                 else:
                     if i !="Total":
-                        res.write(str(request) + " " + "Q0" + " " + str(i) + " " + str(f) + " " + str(row) + " " + "ArslenMarouane" + " " + "/article[1]" + "\n")
+                        res.write(str(list_requests[index]) + " " + "Q0" + " " + str(i) + " " + str(f) + " " + str(row) + " " + "ArslenMarouane" + " " + "/article[1]" + "\n")
                         f = f + 1
-        infile.close()
+        index = index +1
+    infile.close()
 
         #TFList = TFListLTN(biglist, soup.find_all("doc"))
         #IDFList = IDFListLTN(biglist, number_documents, soup.find_all("doc"))
