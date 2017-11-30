@@ -11,7 +11,21 @@ import csv
 
 from builtins import print
 from functions import *
+from nltk.tokenize import sent_tokenize, word_tokenize
 
+from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.corpus import stopwords
+
+data = "All work and no play makes jack dull boy. All work and no play makes jack a dull boy."
+stopWords = set(stopwords.words('english'))
+words = word_tokenize(data)
+wordsFiltered = []
+
+for w in words:
+    if w not in stopWords:
+        wordsFiltered.append(w)
+
+print(wordsFiltered)
 
 list0 = ["olive","oil","health","benefit"]
 list1 = ["notting","hill","film","actors"]
@@ -92,6 +106,15 @@ with open("../Text_Only_Ascii_Coll_MWI_NoSem") as infile:
                         score = (tf * idf) + score
                     print(score)'''
         df.loc['Total'] = df.sum()
+        df_words={}
+        for word in list_queries[index]:
+            df_words[word]=(df[word] != 0).sum()
+        print(df_words)
+        df=df.append(pd.DataFrame([df_words], index=["df_words"], columns=df_words.keys()))
+        print(df)
+
+
+
         list_dataframe.append(df)
     index=0
     for df in list_dataframe:
@@ -117,7 +140,8 @@ with open("../Text_Only_Ascii_Coll_MWI_NoSem") as infile:
             for word in list_queries[index]:
                 if (row[word]!= 0) & (df.at['Total', word]!= 0) :
                     avdl=df.ix[i,"word_of_doc"]/number_of_words
-                    upper= ((1+k)*row[word])#*(log((len(vars)-df.at['Total',word]+0.5)/(df.at['Total',word]+0.5)))
+                    print(avdl)
+                    upper= ((1+k)*row[word])*(log((len(vars)-df.at['df_words',word]+0.5)/(df.at['df_words',word]+0.5)))
                     bellow= row[word]+(k*((1-b)+(b*(number_documents/avdl))))
                     score = score+(upper/bellow)
             score_dict[i]=score
@@ -128,7 +152,7 @@ with open("../Text_Only_Ascii_Coll_MWI_NoSem") as infile:
 
         f=1
         for i, row in score_dict:
-            with open("./runs/ArslenMarouane_04_02_bm25_articles_k1.5b0.75.txt", "a") as res:
+            with open("./runs/ArslenMarouane_04_02_bm25_articles.txt", "a") as res:
                 if f > 1500:
                     break
                 else:

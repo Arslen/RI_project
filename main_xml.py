@@ -77,19 +77,21 @@ for request in list_requests:
             infile.close()
 
     df.loc['Total'] = df.sum()
+    print(df.shape[0])
     #ltn function
-    '''score_dict = {}
+    score_dict = {}
     for i, row in df.iterrows():
         score=0
         for word in list_queries[index]:
             if (row[word]!= 0) & (df.at['Total', word]!= 0) :
                 score = score+(1+log(row[word])*(log(len(vars)/df.at['Total',word])))
         score_dict[i]=score
-    score_dict = sorted(score_dict.items(), key=operator.itemgetter(1), reverse=True)'''
-    #score_dict.pop(0)
+    score_dict = sorted(score_dict.items(), key=operator.itemgetter(1), reverse=True)
+    score_dict.pop(0)
     #df = df.sort_values(by=['score'], ascending=False)
     # bm25 function 232
-    score_dict = {}
+    '''
+    '''score_dict = {}
     b=0.75
     k=1.5
     for i, row in df.iterrows():
@@ -103,7 +105,7 @@ for request in list_requests:
         score_dict[i]=score
     score_dict = sorted(score_dict.items(), key=operator.itemgetter(1), reverse=True)
     score_dict.pop(0)
-
+    '''
     f=1
     for i, row in score_dict:
         with open("./runs/ArslenMarouane_03_06_bm25_xml_files_k1.5b0.75.txt", "a") as res:
