@@ -12,6 +12,12 @@ import csv
 from lxml import etree
 from builtins import print
 from functions import *
+from nltk.tokenize import sent_tokenize, word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+ps= PorterStemmer()
+
+stopWords = set(stopwords.words('english'))
 
 
 list0 = ["olive","oil","health","benefit"]
@@ -41,81 +47,94 @@ biglist =   ['algorithm','benefit','operating','supervised','film','actors',
 list_requests = ["2009011", "2009036", "2009067", "2009073", "2009074", "2009078", "2009085"]
 number_request = 0
 number_result = 1
-#./Text_Only_Ascii_Coll_MWI_NoSem
-for request in list_requests:
-    print(request)
-    index=list_requests.index(request)
-    df = pd.DataFrame([])
-    files = glob.glob("../coll/*.xml")
-    number_of_words = 0
-    i=0
-    for file in sorted(files):
-        with open(file, encoding="utf8") as infile:
-            soup = BeautifulSoup(infile, "xml")
-            docno = soup.find("id").contents[0]
-            vars = soup.get_text()
-            word_of_doc = len(vars.split())
-            a = Counter(vars.split()).most_common()
-            temp_dict = {}
-            array = []
-            for key, value in a:
-                if key in list_queries[index]:
-                    temp_dict[key] = value
-                    array.append(key)
-            missing_words = set(list_queries[index]) - set(array)
-            if len(temp_dict.keys()) != 0:
-                dict = {}
-                for word in missing_words:
-                    dict[word] = 0
-                dict.update(temp_dict)
-                data = pd.DataFrame([dict], index=[docno], columns=dict.keys())
-                e = pd.Series(word_of_doc)
-                data = data.assign(word_of_doc=e.values)
-                df = df.append(data)
-            i=i+1
-            print(i)
-            infile.close()
+df = pd.DataFrame([])
+files = glob.glob("../coll/*.xml")
+i=1
+number_of_words=0
+query_stem = []
+for q in biglist:
+    query_stem.append(ps.stem(q))
+list_queries = [[ps.stem(token) for token in query] for query in list_queries]
+i=0
 
-    df.loc['Total'] = df.sum()
-    print(df.shape[0])
+for file in sorted(files):
+    with open(file, encoding="utf8") as infile:
+        soup = BeautifulSoup(infile, "xml")
+        docno = soup.find("id").contents[0]
+        score=0
+        word_of_doc=0
+        text=soup.get_text()
+        x=''.join(map(lambda c: '' if c in '0123456789!@#$%^&*()[]{};:,./<>?\|`~-=_+' else c, text))
+        words = word_tokenize(x)
+        wordsFiltered = []
+        for w in words:
+            if w not in stopWords:
+                wordsFiltered.append(ps.stem(w))
+        word_of_doc = len(wordsFiltered)
+        number_of_words = number_of_words+ word_of_doc
+        a = Counter(wordsFiltered).most_common()
+        temp_dict={}
+        array = []
+
+        for key, value in a:
+            if key in query_stem:
+                temp_dict[key]=value
+                array.append(key)
+        missing_words = set(query_stem)-set(array)
+
+        if len(temp_dict.keys())!= 0:
+            dict = {}
+            for word in missing_words:
+                dict[word] = 0
+            dict.update(temp_dict)
+            dict["word_of_doc"]=word_of_doc
+            df = df.append(pd.DataFrame([dict], index=[docno], columns=dict.keys()))
+        i=i+1
+        infile.close()
+df.loc['Total'] = df.sum()
+df_words={}
+for word in query_stem:
+    df_words[word]=(df[word] != 0).sum()
+df=df.append(pd.DataFrame([df_words], index=["df_words"], columns=df_words.keys()))
+index=0
+for request in list_requests:
     #ltn function
-    score_dict = {}
-    for i, row in df.iterrows():
-        score=0
-        for word in list_queries[index]:
-            if (row[word]!= 0) & (df.at['Total', word]!= 0) :
-                score = score+(1+log(row[word])*(log(len(vars)/df.at['Total',word])))
-        score_dict[i]=score
-    score_dict = sorted(score_dict.items(), key=operator.itemgetter(1), reverse=True)
-    score_dict.pop(0)
-    #df = df.sort_values(by=['score'], ascending=False)
-    # bm25 function 232
-    '''
     '''score_dict = {}
-    b=0.75
+    for i, row in df.iterrows():
+        score=0
+        if (i !="df_words") & (i!="Total"):
+            for word in list_queries[index]:
+                if (row[word]!= 0) & (df.at['Total', word]!= 0) :
+                    score = score+(1+log(row[word])*(log(len(files)/df.at['df_words',word])))
+            score_dict[i]=score
+    score_dict = sorted(score_dict.items(), key=operator.itemgetter(1), reverse=True)
+    #df = df.sort_values(by=['score'], ascending=False)
+    '''
+    # bm25 function 232
+    score_dict = {}
+    b=1
     k=1.5
+    avdl = df.ix["Total", "word_of_doc"] / len(files)
     for i, row in df.iterrows():
         score=0
         for word in list_queries[index]:
             if (row[word]!= 0) & (df.at['Total', word]!= 0) :
-                avdl=df.ix[i,"word_of_doc"]/df.ix['Total', "word_of_doc"]
-                upper= ((1+k)*row[word])#*(log((len(vars)-df.at['Total',word]+0.5)/(df.at['Total',word]+0.5)))
-                bellow= row[word]+(k*((1-b)+(b*(len(files)/avdl))))
+                upper= ((1+k)*row[word])*(log((len(files)-df.at['df_words',word]+0.5)/(df.at['df_words',word]+0.5)))
+                bellow= row[word]+(k*((1-b)+(b*(df.ix[i,"word_of_doc"]/avdl))))
                 score = score+(upper/bellow)
         score_dict[i]=score
     score_dict = sorted(score_dict.items(), key=operator.itemgetter(1), reverse=True)
-    score_dict.pop(0)
-    '''
+
     f=1
     for i, row in score_dict:
-        with open("./runs/ArslenMarouane_03_06_bm25_xml_files_k1.5b0.75.txt", "a") as res:
+        with open("./runs/ArslenMarouane_04_05_bm25_xml_k1.5b1.txt", "a") as res:
             if f > 1500:
                 break
             else:
-                if i !="Total":
+                if (i !="Total") & (i != "df_words"):
                     res.write(str(request) + " " + "Q0" + " " + str(i) + " " + str(f) + " " + str(row) + " " + "ArslenMarouane" + " " + "/article[1]" + "\n")
                     f = f + 1
-
+    index = index +1
 
         #TFList = TFListLTN(biglist, soup.find_all("doc"))
         #IDFList = IDFListLTN(biglist, number_documents, soup.find_all("doc"))
