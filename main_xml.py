@@ -97,6 +97,7 @@ for word in query_stem:
     df_words[word]=(df[word] != 0).sum()
 df=df.append(pd.DataFrame([df_words], index=["df_words"], columns=df_words.keys()))
 index=0
+print(df)
 for request in list_requests:
     #ltn function
     '''score_dict = {}
@@ -127,7 +128,7 @@ for request in list_requests:
 
     f=1
     for i, row in score_dict:
-        with open("./runs/ArslenMarouane_04_05_bm25_xml_k1.5b1.txt", "a") as res:
+        with open("./runs/ArslenMarouane_04_05_bm25_xml_k1.5b1ccss.txt", "a") as res:
             if f > 1500:
                 break
             else:
