@@ -108,16 +108,20 @@ with open("../Text_Only_Ascii_Coll_MWI_NoSem") as infile:
     for request in list_requests:
         #ltn function
         score_dict = {}
-        print(index)
+        ltc_sqrt=0
         for i, row in df.iterrows():
             score=0
-            print(i)
             if (i !="df_words") & (i!="Total"):
                 for word in list_queries[index]:
                     if (row[word]!= 0) & (df.at['Total', word]!= 0) :
                         score = score+(1+log(row[word])*(log(len(vars)/df.at['df_words',word])))
                 score_dict[i]=score
+                ltc_sqrt=ltc_sqrt+(score*score)
+        for i, row in score_dict.items():
+            score_dict[i]=row/math.sqrt(ltc_sqrt)
+
         score_dict = sorted(score_dict.items(), key=operator.itemgetter(1), reverse=True)
+
         #df = df.sort_values(by=['score'], ascending=False)
 
         ''''# bm25 function 232
@@ -137,7 +141,7 @@ with open("../Text_Only_Ascii_Coll_MWI_NoSem") as infile:
         '''
         f=1
         for i, row in score_dict:
-            with open("./runs/ArslenMarouane_04_01_ltn_articles.txt", "a") as res:
+            with open("./runs/ArslenMarouane_04_06_ltc_articles.txt", "a") as res:
                 if f > 1500:
                     break
                 else:

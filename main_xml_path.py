@@ -4,6 +4,7 @@ import pandas as pd
 import operator
 from bs4 import BeautifulSoup
 import glob
+from lxml import etree
 from numpy.core.umath import NAN
 from sklearn.feature_extraction.text import TfidfVectorizer
 import re
@@ -18,7 +19,7 @@ from nltk.stem import PorterStemmer
 ps= PorterStemmer()
 
 stopWords = set(stopwords.words('english'))
-
+tags=["title","bdy","p","sec","table","link","list","header","article"]
 
 list0 = ["olive","oil","health","benefit"]
 list1 = ["notting","hill","film","actors"]
@@ -56,14 +57,39 @@ for q in biglist:
     query_stem.append(ps.stem(q))
 list_queries = [[ps.stem(token) for token in query] for query in list_queries]
 i=0
-
+dict_path = {}
 for file in sorted(files):
     with open(file, encoding="utf8") as infile:
         soup = BeautifulSoup(infile, "xml")
+        root = etree.parse(soup)
+        for e in root.iter():
+            print(root.getpath(e))
         docno = soup.find("id").contents[0]
         score=0
         word_of_doc=0
         text=soup.get_text()
+        b = soup.get_text()
+        dict_path[docno]={}
+        for query in list_queries:
+            index = list_queries.index(query)
+            path= ''
+            for w in query:
+                if w in b:
+                    for child in soup.descendants:
+                        if child.name is not None:
+                            if w in child.contents[0]:
+                                tab = []
+                                tab.append(child.name)
+                                l = soup.find(child.name).parent()
+                                path = "/"
+                                for parent in soup.find(child.name).parents:
+                                    if parent is not None:
+                                        tab.append(parent.name)
+                                for word_tab in reversed(tab):
+                                    if word_tab in tags:
+                                        path = path + word_tab + '/'
+            dict_path[docno][list_requests[index]]=path
+        print(dict_path)
         x=''.join(map(lambda c: '' if c in '0123456789!@#$%^&*()[]{};:,./<>?\|`~-=_+' else c, text))
         words = word_tokenize(x)
         wordsFiltered = []
@@ -97,6 +123,7 @@ for word in query_stem:
     df_words[word]=(df[word] != 0).sum()
 df=df.append(pd.DataFrame([df_words], index=["df_words"], columns=df_words.keys()))
 index=0
+print(df)
 for request in list_requests:
     #ltn function
     score_dict = {}
@@ -132,12 +159,12 @@ for request in list_requests:
     '''
     f=1
     for i, row in score_dict:
-        with open("./runs/ArslenMarouane_04_07_ltc_xml.txt", "a") as res:
+        with open("./runs/ArslenMarouane_04_08_ltc_xml_path.txt", "a") as res:
             if f > 1500:
                 break
             else:
                 if (i !="Total") & (i != "df_words"):
-                    res.write(str(request) + " " + "Q0" + " " + str(i) + " " + str(f) + " " + str(row) + " " + "ArslenMarouane" + " " + "/article[1]" + "\n")
+                    res.write(str(request) + " " + "Q0" + " " + str(i) + " " + str(f) + " " + str(row) + " " + "ArslenMarouane" + " " + str(dict_path[i][request]) + "\n")
                     f = f + 1
     index = index +1
 

@@ -1,0 +1,210 @@
+2009011 Q0 3277 1 0.4847832464817273 ArslenMarouane /article/bdy/p/
+2009011 Q0 1064 2 0.39697426582653517 ArslenMarouane /article/bdy/sec/
+2009011 Q0 2539 3 0.3852764761965519 ArslenMarouane /article/bdy/p/
+2009011 Q0 627 4 0.3475421882821774 ArslenMarouane /article/bdy/sec/
+2009011 Q0 717 5 0.3409349847662769 ArslenMarouane /article/bdy/link/
+2009011 Q0 1841 6 0.3148400138010802 ArslenMarouane /article/bdy/p/
+2009011 Q0 2348 7 0.2964563889470746 ArslenMarouane /article/bdy/sec/p/list/
+2009011 Q0 780 8 0.15771662112445547 ArslenMarouane /article/bdy/link/
+2009011 Q0 4214 9 0.0726360232566112 ArslenMarouane 
+2009011 Q0 1164 10 0.03455172689927542 ArslenMarouane 
+2009011 Q0 1397 11 0.03455172689927542 ArslenMarouane 
+2009011 Q0 2323 12 0.03455172689927542 ArslenMarouane 
+2009011 Q0 4080 13 0.03455172689927542 ArslenMarouane 
+2009011 Q0 1063 14 0.0 ArslenMarouane 
+2009011 Q0 1134 15 0.0 ArslenMarouane 
+2009011 Q0 1260 16 0.0 ArslenMarouane 
+2009011 Q0 2099 17 0.0 ArslenMarouane 
+2009011 Q0 2114 18 0.0 ArslenMarouane 
+2009011 Q0 2142 19 0.0 ArslenMarouane 
+2009011 Q0 2166 20 0.0 ArslenMarouane 
+2009011 Q0 2230 21 0.0 ArslenMarouane 
+2009011 Q0 2862 22 0.0 ArslenMarouane 
+2009011 Q0 3110 23 0.0 ArslenMarouane 
+2009011 Q0 3841 24 0.0 ArslenMarouane 
+2009011 Q0 3926 25 0.0 ArslenMarouane 
+2009011 Q0 4079 26 0.0 ArslenMarouane 
+2009011 Q0 4211 27 0.0 ArslenMarouane 
+2009011 Q0 612 28 0.0 ArslenMarouane 
+2009011 Q0 753 29 0.0 ArslenMarouane 
+2009011 Q0 775 30 0.0 ArslenMarouane /article/bdy/sec/p/
+2009036 Q0 3841 1 0.683949103155082 ArslenMarouane /article/header/
+2009036 Q0 753 2 0.6823143505271939 ArslenMarouane /article/bdy/link/
+2009036 Q0 1397 3 0.20339751869893444 ArslenMarouane /article/bdy/p/
+2009036 Q0 1164 4 0.09589805334099576 ArslenMarouane /article/bdy/link/
+2009036 Q0 2114 5 0.04794902667049788 ArslenMarouane /article/bdy/p/
+2009036 Q0 2166 6 0.04794902667049788 ArslenMarouane /article/bdy/link/
+2009036 Q0 3277 7 0.04794902667049788 ArslenMarouane /article/bdy/link/
+2009036 Q0 4214 8 0.04794902667049788 ArslenMarouane /article/bdy/table/p/
+2009036 Q0 612 9 0.04794902667049788 ArslenMarouane /article/bdy/sec/p/list/
+2009036 Q0 717 10 0.04794902667049788 ArslenMarouane /article/bdy/p/
+2009036 Q0 775 11 0.04794902667049788 ArslenMarouane /article/bdy/p/
+2009036 Q0 1063 12 0.0 ArslenMarouane /article/bdy/sec/p/
+2009036 Q0 1064 13 0.0 ArslenMarouane /article/bdy/p/table/
+2009036 Q0 1134 14 0.0 ArslenMarouane /article/bdy/link/
+2009036 Q0 1260 15 0.0 ArslenMarouane /article/bdy/p/
+2009036 Q0 1841 16 0.0 ArslenMarouane /article/bdy/p/
+2009036 Q0 2099 17 0.0 ArslenMarouane 
+2009036 Q0 2142 18 0.0 ArslenMarouane /article/bdy/
+2009036 Q0 2230 19 0.0 ArslenMarouane /article/bdy/link/
+2009036 Q0 2323 20 0.0 ArslenMarouane /article/bdy/sec/p/list/
+2009036 Q0 2348 21 0.0 ArslenMarouane /article/bdy/sec/p/
+2009036 Q0 2539 22 0.0 ArslenMarouane /article/bdy/table/header/link/
+2009036 Q0 2862 23 0.0 ArslenMarouane 
+2009036 Q0 3110 24 0.0 ArslenMarouane /article/bdy/sec/
+2009036 Q0 3926 25 0.0 ArslenMarouane 
+2009036 Q0 4079 26 0.0 ArslenMarouane 
+2009036 Q0 4080 27 0.0 ArslenMarouane /article/bdy/link/
+2009036 Q0 4211 28 0.0 ArslenMarouane 
+2009036 Q0 627 29 0.0 ArslenMarouane /article/bdy/table/header/link/
+2009036 Q0 780 30 0.0 ArslenMarouane 
+2009067 Q0 1164 1 0.43816395258299606 ArslenMarouane /article/bdy/link/
+2009067 Q0 1397 2 0.33818001695400474 ArslenMarouane /article/bdy/sec/p/list/
+2009067 Q0 775 3 0.3177373626444131 ArslenMarouane /article/bdy/sec/
+2009067 Q0 1064 4 0.28269526920978655 ArslenMarouane /article/bdy/p/table/
+2009067 Q0 3277 5 0.26307524400202553 ArslenMarouane /article/bdy/sec/p/
+2009067 Q0 4214 6 0.25864153927305455 ArslenMarouane /article/header/title/
+2009067 Q0 627 7 0.2454255479060699 ArslenMarouane /article/bdy/table/table/
+2009067 Q0 717 8 0.20396216513008716 ArslenMarouane /article/header/
+2009067 Q0 1260 9 0.19809509596467534 ArslenMarouane /article/bdy/link/
+2009067 Q0 2539 10 0.18741939480590555 ArslenMarouane /article/header/
+2009067 Q0 2114 11 0.18515834953139548 ArslenMarouane /article/bdy/p/
+2009067 Q0 4080 12 0.17650938127813431 ArslenMarouane /article/header/
+2009067 Q0 612 13 0.1497530310119184 ArslenMarouane /article/header/
+2009067 Q0 4079 14 0.13546183043806298 ArslenMarouane /article/bdy/link/
+2009067 Q0 2862 15 0.1267745102820572 ArslenMarouane /article/header/
+2009067 Q0 1134 16 0.11195005841179985 ArslenMarouane /article/bdy/sec/
+2009067 Q0 2099 17 0.10593550593115066 ArslenMarouane /article/header/
+2009067 Q0 2142 18 0.10593550593115066 ArslenMarouane /article/header/title/
+2009067 Q0 2230 19 0.10593550593115066 ArslenMarouane /article/bdy/link/
+2009067 Q0 1841 20 0.1032716932714165 ArslenMarouane /article/bdy/link/
+2009067 Q0 780 21 0.06839067103271888 ArslenMarouane /article/bdy/
+2009067 Q0 2166 22 0.06412327813527237 ArslenMarouane /article/bdy/
+2009067 Q0 2323 23 0.058108725654623175 ArslenMarouane /article/header/
+2009067 Q0 2348 24 0.04782678027652748 ArslenMarouane /article/header/title/
+2009067 Q0 3110 25 0.04782678027652748 ArslenMarouane /article/header/
+2009067 Q0 4211 26 0.04782678027652748 ArslenMarouane /article/header/title/
+2009067 Q0 753 27 0.04782678027652748 ArslenMarouane /article/header/
+2009067 Q0 1063 28 0.0 ArslenMarouane /article/header/title/
+2009067 Q0 3841 29 0.0 ArslenMarouane /article/header/
+2009067 Q0 3926 30 0.0 ArslenMarouane /article/bdy/p/table/
+2009073 Q0 1397 1 0.42629017881603304 ArslenMarouane /article/bdy/p/
+2009073 Q0 4214 2 0.39781191928844234 ArslenMarouane /article/bdy/table/p/
+2009073 Q0 1164 3 0.3528662863863678 ArslenMarouane /article/bdy/p/
+2009073 Q0 1134 4 0.3152920200087716 ArslenMarouane /article/bdy/p/
+2009073 Q0 775 5 0.26724269282355123 ArslenMarouane /article/bdy/p/link/
+2009073 Q0 1260 6 0.23456898723710437 ArslenMarouane /article/bdy/sec/p/
+2009073 Q0 3277 7 0.22971807306267242 ArslenMarouane /article/bdy/p/
+2009073 Q0 3110 8 0.18964607570181938 ArslenMarouane /article/bdy/sec/p/
+2009073 Q0 2099 9 0.18741035957305302 ArslenMarouane /article/bdy/p/
+2009073 Q0 2114 10 0.17166002179895468 ArslenMarouane /article/bdy/sec/
+2009073 Q0 2142 11 0.16494890380541055 ArslenMarouane /article/bdy/link/
+2009073 Q0 612 12 0.1451312145275852 ArslenMarouane /article/bdy/link/
+2009073 Q0 2230 13 0.14078147628369553 ArslenMarouane /article/bdy/p/
+2009073 Q0 2166 14 0.12910171970932138 ArslenMarouane /article/bdy/sec/p/table/
+2009073 Q0 627 15 0.09573687073476748 ArslenMarouane /article/bdy/table/header/link/
+2009073 Q0 717 16 0.09573687073476748 ArslenMarouane /article/bdy/sec/
+2009073 Q0 1064 17 0.09350115460600114 ArslenMarouane /article/bdy/sec/
+2009073 Q0 2323 18 0.09350115460600114 ArslenMarouane /article/bdy/sec/
+2009073 Q0 3926 19 0.09350115460600114 ArslenMarouane /article/bdy/p/table/
+2009073 Q0 780 20 0.09350115460600114 ArslenMarouane /article/bdy/sec/p/table/
+2009073 Q0 2539 21 0.05252981965811909 ArslenMarouane /article/header/
+2009073 Q0 2348 22 0.04898629343176693 ArslenMarouane /article/bdy/sec/
+2009073 Q0 1063 23 0.04675057730300057 ArslenMarouane /article/bdy/sec/
+2009073 Q0 1841 24 0.04675057730300057 ArslenMarouane /article/bdy/sec/
+2009073 Q0 3841 25 0.04675057730300057 ArslenMarouane /article/bdy/sec/
+2009073 Q0 4079 26 0.04675057730300057 ArslenMarouane /article/bdy/sec/
+2009073 Q0 4211 27 0.04675057730300057 ArslenMarouane /article/bdy/sec/
+2009073 Q0 753 28 0.04675057730300057 ArslenMarouane /article/bdy/sec/
+2009073 Q0 2862 29 0.0 ArslenMarouane 
+2009073 Q0 4080 30 0.0 ArslenMarouane 
+2009074 Q0 1397 1 0.4872401610855658 ArslenMarouane /article/bdy/link/
+2009074 Q0 4214 2 0.3690843045925172 ArslenMarouane /article/bdy/p/link/
+2009074 Q0 612 3 0.32624553571721765 ArslenMarouane /article/bdy/link/
+2009074 Q0 1260 4 0.3118457431770141 ArslenMarouane /article/bdy/link/
+2009074 Q0 775 5 0.2817402446299481 ArslenMarouane /article/bdy/p/
+2009074 Q0 1164 6 0.2655397828085771 ArslenMarouane /article/bdy/p/
+2009074 Q0 2230 7 0.21494178539168468 ArslenMarouane /article/header/title/
+2009074 Q0 1063 8 0.2075872512738044 ArslenMarouane /article/header/
+2009074 Q0 4079 9 0.18294424269119997 ArslenMarouane /article/header/
+2009074 Q0 4080 10 0.15705297460662732 ArslenMarouane /article/bdy/link/
+2009074 Q0 2099 11 0.1426653284592497 ArslenMarouane /article/bdy/link/
+2009074 Q0 1134 12 0.1290926243453484 ArslenMarouane /article/bdy/link/
+2009074 Q0 3110 13 0.12890150048581409 ArslenMarouane 
+2009074 Q0 3926 14 0.12834140306158742 ArslenMarouane 
+2009074 Q0 2323 15 0.12009140205335153 ArslenMarouane /article/bdy/p/
+2009074 Q0 2862 16 0.10848680820194978 ArslenMarouane /article/bdy/p/
+2009074 Q0 2166 17 0.09213105179207262 ArslenMarouane 
+2009074 Q0 1841 18 0.06417070153079371 ArslenMarouane 
+2009074 Q0 2142 19 0.06417070153079371 ArslenMarouane 
+2009074 Q0 3841 20 0.06417070153079371 ArslenMarouane /article/bdy/sec/p/
+2009074 Q0 627 21 0.06417070153079371 ArslenMarouane /article/bdy/table/header/link/
+2009074 Q0 753 22 0.06417070153079371 ArslenMarouane 
+2009074 Q0 1064 23 0.0 ArslenMarouane 
+2009074 Q0 2114 24 0.0 ArslenMarouane 
+2009074 Q0 2348 25 0.0 ArslenMarouane 
+2009074 Q0 2539 26 0.0 ArslenMarouane 
+2009074 Q0 3277 27 0.0 ArslenMarouane 
+2009074 Q0 4211 28 0.0 ArslenMarouane 
+2009074 Q0 717 29 0.0 ArslenMarouane /article/bdy/sec/p/table/
+2009074 Q0 780 30 0.0 ArslenMarouane 
+2009078 Q0 1164 1 0.6110795019736509 ArslenMarouane /article/bdy/p/
+2009078 Q0 775 2 0.3880112286062873 ArslenMarouane /article/bdy/p/
+2009078 Q0 4214 3 0.2688592171395366 ArslenMarouane /article/bdy/p/link/
+2009078 Q0 2142 4 0.2631394425230903 ArslenMarouane /article/bdy/link/
+2009078 Q0 2230 5 0.2302909654019577 ArslenMarouane /article/header/title/
+2009078 Q0 4079 6 0.22085524952096 ArslenMarouane /article/header/
+2009078 Q0 2862 7 0.18875761839356478 ArslenMarouane /article/bdy/p/
+2009078 Q0 4080 8 0.1825230754678612 ArslenMarouane /article/bdy/link/
+2009078 Q0 4211 9 0.16755388240365232 ArslenMarouane /article/bdy/sec/
+2009078 Q0 1260 10 0.1669970579690486 ArslenMarouane /article/bdy/link/
+2009078 Q0 2323 11 0.1575449265593047 ArslenMarouane /article/bdy/p/
+2009078 Q0 1063 12 0.1402847583489918 ArslenMarouane /article/header/
+2009078 Q0 627 13 0.11975444611613834 ArslenMarouane /article/bdy/table/header/link/
+2009078 Q0 2166 14 0.10562668738024271 ArslenMarouane 
+2009078 Q0 2099 15 0.09641136921885211 ArslenMarouane /article/bdy/link/
+2009078 Q0 1134 16 0.08723911270946945 ArslenMarouane /article/bdy/link/
+2009078 Q0 3110 17 0.08673144715865953 ArslenMarouane /article/bdy/p/
+2009078 Q0 2114 18 0.07638872253680858 ArslenMarouane 
+2009078 Q0 1397 19 0.04336572357932977 ArslenMarouane 
+2009078 Q0 3277 20 0.04336572357932977 ArslenMarouane /article/bdy/sec/p/
+2009078 Q0 3926 21 0.04336572357932977 ArslenMarouane 
+2009078 Q0 717 22 0.04336572357932977 ArslenMarouane 
+2009078 Q0 1064 23 0.0 ArslenMarouane 
+2009078 Q0 1841 24 0.0 ArslenMarouane 
+2009078 Q0 2348 25 0.0 ArslenMarouane 
+2009078 Q0 2539 26 0.0 ArslenMarouane 
+2009078 Q0 3841 27 0.0 ArslenMarouane 
+2009078 Q0 612 28 0.0 ArslenMarouane 
+2009078 Q0 753 29 0.0 ArslenMarouane 
+2009078 Q0 780 30 0.0 ArslenMarouane 
+2009085 Q0 717 1 0.3614149328510478 ArslenMarouane /article/bdy/sec/p/table/
+2009085 Q0 1397 2 0.3512503178719165 ArslenMarouane /article/bdy/link/
+2009085 Q0 2114 3 0.33869506525584886 ArslenMarouane /article/header/title/
+2009085 Q0 3110 4 0.3091548446584582 ArslenMarouane /article/header/
+2009085 Q0 1260 5 0.30845847080026584 ArslenMarouane /article/bdy/p/
+2009085 Q0 1164 6 0.2703280608516628 ArslenMarouane /article/bdy/link/
+2009085 Q0 775 7 0.26240704012604865 ArslenMarouane /article/bdy/p/link/
+2009085 Q0 627 8 0.22614519486319393 ArslenMarouane /article/bdy/p/
+2009085 Q0 2323 9 0.19606080777789467 ArslenMarouane /article/bdy/p/
+2009085 Q0 2230 10 0.17126410619011556 ArslenMarouane /article/bdy/link/
+2009085 Q0 1841 11 0.15501737212267705 ArslenMarouane /article/bdy/sec/p/list/
+2009085 Q0 4211 12 0.14877034810743633 ArslenMarouane 
+2009085 Q0 4079 13 0.13809099001603856 ArslenMarouane /article/bdy/sec/
+2009085 Q0 1063 14 0.12162364017599779 ArslenMarouane /article/bdy/sec/p/
+2009085 Q0 3277 15 0.11441063407038417 ArslenMarouane /article/bdy/p/
+2009085 Q0 4214 16 0.11269697437501375 ArslenMarouane /article/bdy/p/link/
+2009085 Q0 2099 17 0.10452155468719616 ArslenMarouane /article/bdy/p/
+2009085 Q0 2142 18 0.10452155468719616 ArslenMarouane 
+2009085 Q0 1134 19 0.09665123520605552 ArslenMarouane /article/bdy/link/
+2009085 Q0 2539 20 0.0938421965957984 ArslenMarouane /article/bdy/table/list/
+2009085 Q0 780 21 0.0938421965957984 ArslenMarouane 
+2009085 Q0 2862 22 0.09040421119081478 ArslenMarouane /article/bdy/link/
+2009085 Q0 1064 23 0.08597187711465777 ArslenMarouane 
+2009085 Q0 2166 24 0.06904549500801928 ArslenMarouane 
+2009085 Q0 4080 25 0.06904549500801928 ArslenMarouane /article/bdy/sec/p/list/
+2009085 Q0 2348 26 0.0 ArslenMarouane 
+2009085 Q0 3841 27 0.0 ArslenMarouane /article/bdy/sec/p/list/
+2009085 Q0 3926 28 0.0 ArslenMarouane 
+2009085 Q0 612 29 0.0 ArslenMarouane 
+2009085 Q0 753 30 0.0 ArslenMarouane 
