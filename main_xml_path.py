@@ -61,9 +61,7 @@ dict_path = {}
 for file in sorted(files):
     with open(file, encoding="utf8") as infile:
         soup = BeautifulSoup(infile, "xml")
-        root = etree.parse(soup)
-        for e in root.iter():
-            print(root.getpath(e))
+
         docno = soup.find("id").contents[0]
         score=0
         word_of_doc=0

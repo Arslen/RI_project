@@ -44,7 +44,7 @@ biglist =   ['algorithm','benefit','operating','supervised','film','actors',
             'web','scoring']
 
 
-list_requests = ["2009011", "2009036", "2009067", "2009073", "2009074", "2009078", "2009085"]
+list_requests = ["2009011", "2009036", "2009067"]
 number_request = 0
 number_result = 1
 df = pd.DataFrame([])
@@ -110,13 +110,16 @@ for request in list_requests:
                     score = score+(1+log(row[word])*(log(len(files)/df.at['df_words',word])))
             score_dict[i]=score
             ltc_sqrt = ltc_sqrt + (score * score)
+
+    '''
     for i, row in score_dict.items():
         score_dict[i] = row / math.sqrt(ltc_sqrt)
     score_dict = sorted(score_dict.items(), key=operator.itemgetter(1), reverse=True)
+    
     #df = df.sort_values(by=['score'], ascending=False)
 
     # bm25 function 232
-    '''score_dict = {}
+    score_dict = {}
     b=1
     k=1.5
     avdl = df.ix["Total", "word_of_doc"] / len(files)
@@ -132,7 +135,7 @@ for request in list_requests:
     '''
     f=1
     for i, row in score_dict:
-        with open("./runs/ArslenMarouane_04_07_ltc_xml.txt", "a") as res:
+        with open("./runs/ArslenMarouane_05_01_ltn_xml.txt", "a") as res:
             if f > 1500:
                 break
             else:
