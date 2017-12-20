@@ -48,6 +48,7 @@ list_requests = ["2009011", "2009036", "2009067", "2009073", "2009074", "2009078
 number_request = 0
 number_result = 1
 df = pd.DataFrame([])
+df_titles= pd.DataFrame([])
 files = glob.glob("../coll/*.xml")
 i=1
 number_of_words=0
@@ -74,12 +75,21 @@ for file in sorted(files):
         number_of_words = number_of_words+ word_of_doc
         a = Counter(wordsFiltered).most_common()
         temp_dict={}
+        title_dict={}
         array = []
 
         for key, value in a:
             if key in query_stem:
-                temp_dict[key]=value
+                temp_dict[key] = value
+                title_dict[key]=0
                 array.append(key)
+                j = query_stem.index(key)
+                ### if we found the query in the title, we multiply the tf wit a_title, so we got tf' that give us dl',
+                title = soup.find("title").string
+                if title:
+                    title_dict[key] = 0
+                    if biglist[j] in title:
+                        title_dict[key]=title.count(biglist[j])
         missing_words = set(query_stem)-set(array)
 
         if len(temp_dict.keys())!= 0:
@@ -89,9 +99,11 @@ for file in sorted(files):
             dict.update(temp_dict)
             dict["word_of_doc"]=word_of_doc
             df = df.append(pd.DataFrame([dict], index=[docno], columns=dict.keys()))
+            df_titles = df_titles.append(pd.DataFrame([title_dict], index=[docno], columns=title_dict.keys()))
         i=i+1
         infile.close()
 df.loc['Total'] = df.sum()
+df_titles.replace(np.nan, 0, inplace=True)
 df_words={}
 for word in query_stem:
     df_words[word]=(df[word] != 0).sum()
@@ -126,7 +138,11 @@ for request in list_requests:
             if (row[word]!= 0) & (df.at['Total', word]!= 0) :
                 upper= ((1+k)*row[word])*(log((len(files)-df.at['df_words',word]+0.5)/(df.at['df_words',word]+0.5)))
                 bellow= row[word]+(k*((1-b)+(b*(df.ix[i,"word_of_doc"]/avdl))))
-                score = score+(upper/bellow)
+                weight= (upper / bellow)
+                if (i !="Total") & (i != "df_words"):
+                    if df_titles.get_value(i, word, takeable=False) != 0:
+                        weight = weight*(df_titles.get_value(i, word, takeable=False)*2)
+                score = score+weight
         score_dict[i]=score
     score_dict = sorted(score_dict.items(), key=operator.itemgetter(1), reverse=True)
 
@@ -134,7 +150,7 @@ for request in list_requests:
 
     f=1
     for i, row in score_dict:
-        with open("./runs/ArslenMarouane_05_04_bm25_b1k1.5_xml.txt", "a") as res:
+        with open("./runs/ArslenMarouane_05_06_bm25linear_b1k1.5_xml.txt", "a") as res:
             if f > 1500:
                 break
             else:

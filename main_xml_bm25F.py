@@ -44,7 +44,7 @@ biglist =   ['algorithm','benefit','operating','supervised','film','actors',
             'web','scoring']
 
 
-list_requests = ["2009011", "2009036", "2009067", "2009073", "2009074", "2009078", "2009085"]
+list_requests = [ "2009073", "2009074", "2009078", "2009085"]
 number_request = 0
 number_result = 1
 df = pd.DataFrame([])
@@ -56,7 +56,6 @@ for q in biglist:
     query_stem.append(ps.stem(q))
 list_queries = [[ps.stem(token) for token in query] for query in list_queries]
 i=0
-
 for file in sorted(files):
     with open(file, encoding="utf8") as infile:
         soup = BeautifulSoup(infile, "xml")
@@ -75,10 +74,16 @@ for file in sorted(files):
         a = Counter(wordsFiltered).most_common()
         temp_dict={}
         array = []
-
         for key, value in a:
             if key in query_stem:
-                temp_dict[key]=value
+                temp_dict[key] = value
+                j=query_stem.index(key)
+                ### if we found the query in the title, we multiply the tf wit a_title, so we got tf' that give us dl',
+                title=soup.find("title").string
+                temp_dict["query_in_title"]=[]
+                if title:
+                    if biglist[j] in title:
+                        temp_dict[key] = value * 2
                 array.append(key)
         missing_words = set(query_stem)-set(array)
 
@@ -119,6 +124,7 @@ for request in list_requests:
     score_dict = {}
     b=1
     k=1.5
+    ## new avdl calculated from new dl'
     avdl = df.ix["Total", "word_of_doc"] / len(files)
     for i, row in df.iterrows():
         score=0
@@ -134,7 +140,7 @@ for request in list_requests:
 
     f=1
     for i, row in score_dict:
-        with open("./runs/ArslenMarouane_05_04_bm25_b1k1.5_xml.txt", "a") as res:
+        with open("./runs/ArslenMarouane_05_04_bm25f_b1k1.5_xml.txt", "a") as res:
             if f > 1500:
                 break
             else:
