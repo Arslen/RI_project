@@ -64,6 +64,24 @@ for file in sorted(files):
         docno = soup.find("id").contents[0]
         score=0
         word_of_doc=0
+        title=soup.title.string
+        wordsTitle = []
+        title_dict = {}
+        if title:
+            title=''.join(map(lambda c: '' if c in '0123456789!@#$%^&*()[]{};:,./<>?\|`~-=_+' else c, title))
+            title = word_tokenize(title)
+
+            for w in title:
+                if w not in stopWords:
+                    wordsTitle.append(ps.stem(w))
+            a = Counter(wordsTitle).most_common()
+            for key, value in a:
+                if key in query_stem:
+                    title_dict[key]=value
+            title_dict["word_of_doc"] = len(wordsTitle)
+        else:
+            title_dict["word_of_doc"] = 0
+        soup.title.extract()
         text=soup.get_text()
         x=''.join(map(lambda c: '' if c in '0123456789!@#$%^&*()[]{};:,./<>?\|`~-=_+' else c, text))
         words = word_tokenize(x)
@@ -75,21 +93,12 @@ for file in sorted(files):
         number_of_words = number_of_words+ word_of_doc
         a = Counter(wordsFiltered).most_common()
         temp_dict={}
-        title_dict={}
         array = []
-
         for key, value in a:
             if key in query_stem:
                 temp_dict[key] = value
-                title_dict[key]=0
                 array.append(key)
-                j = query_stem.index(key)
-                ### if we found the query in the title, we multiply the tf wit a_title, so we got tf' that give us dl',
-                title = soup.find("title").string
-                if title:
-                    title_dict[key] = 0
-                    if biglist[j] in title:
-                        title_dict[key]=title.count(biglist[j])
+
         missing_words = set(query_stem)-set(array)
 
         if len(temp_dict.keys())!= 0:
@@ -99,16 +108,22 @@ for file in sorted(files):
             dict.update(temp_dict)
             dict["word_of_doc"]=word_of_doc
             df = df.append(pd.DataFrame([dict], index=[docno], columns=dict.keys()))
-            df_titles = df_titles.append(pd.DataFrame([title_dict], index=[docno], columns=title_dict.keys()))
+            df_titles = df_titles.append(pd.DataFrame([title_dict], index=[docno], columns=dict.keys()))
         i=i+1
         infile.close()
 df.loc['Total'] = df.sum()
 df_titles.replace(np.nan, 0, inplace=True)
+df_titles.loc['Total'] = df_titles.sum()
+print(df_titles)
 df_words={}
+df_words_title={}
 for word in query_stem:
     df_words[word]=(df[word] != 0).sum()
-df=df.append(pd.DataFrame([df_words], index=["df_words"], columns=df_words.keys()))
+    df_words_title[word] = (df_titles[word] != 0).sum()
+df=df.append(pd.DataFrame([df_words], index={"df_words"}, columns=df_words.keys()))
+df_titles=df_titles.append(pd.DataFrame([df_words_title], index=["df_words"], columns=df_words_title.keys()))
 index=0
+print(df_titles)
 for request in list_requests:
     #ltn function
     '''score_dict = {}
@@ -132,25 +147,35 @@ for request in list_requests:
     b=1
     k=1.5
     avdl = df.ix["Total", "word_of_doc"] / len(files)
+    avdl_title = df_titles.ix["Total", "word_of_doc"] / len(files)
+
     for i, row in df.iterrows():
         score=0
         for word in list_queries[index]:
             if (row[word]!= 0) & (df.at['Total', word]!= 0) :
-                upper= ((1+k)*row[word])*(log((len(files)-df.at['df_words',word]+0.5)/(df.at['df_words',word]+0.5)))
+                upper= ((1+k)*row[word])*(log((len(files)-(df.at['df_words',word]-1)+0.5)/((df.at['df_words',word]-1)+0.5)))
                 bellow= row[word]+(k*((1-b)+(b*(df.ix[i,"word_of_doc"]/avdl))))
                 weight= (upper / bellow)
-                if (i !="Total") & (i != "df_words"):
-                    if df_titles.get_value(i, word, takeable=False) != 0:
-                        weight = weight*(df_titles.get_value(i, word, takeable=False)*2)
                 score = score+weight
         score_dict[i]=score
+    for i, row in df_titles.iterrows():
+        score=0
+        for word in list_queries[index]:
+            if (row[word]!= 0) & (df_titles.at['Total', word]!= 0) :
+                upper= ((1+k)*row[word])*(log((len(files)-(df_titles.at['df_words',word]-1)+0.5)/((df_titles.at['df_words',word]-1)+0.5)))
+                bellow= row[word]+(k*((1-b)+(b*(df_titles.ix[i,"word_of_doc"]/avdl_title))))
+                weight= (upper / bellow)
+                score = score+(weight*2)
+        score_dict[i]=score_dict[i]+score
+
+
     score_dict = sorted(score_dict.items(), key=operator.itemgetter(1), reverse=True)
 
 
 
     f=1
     for i, row in score_dict:
-        with open("./runs/ArslenMarouane_05_06_bm25linear_b1k1.5_xml.txt", "a") as res:
+        with open("./runs/ArslenMarouane_07_04_bm25linear_b1k1.5_xml.txt", "a") as res:
             if f > 1500:
                 break
             else:

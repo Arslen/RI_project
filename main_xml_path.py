@@ -4,7 +4,6 @@ import pandas as pd
 import operator
 from bs4 import BeautifulSoup
 import glob
-from lxml import etree
 from numpy.core.umath import NAN
 from sklearn.feature_extraction.text import TfidfVectorizer
 import re
@@ -12,11 +11,11 @@ from math import *
 import csv
 from lxml import etree
 from builtins import print
-from functions import *
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
 ps= PorterStemmer()
+
 
 stopWords = set(stopwords.words('english'))
 tags=["title","bdy","p","sec","table","link","list","header","article"]
@@ -45,6 +44,15 @@ biglist =   ['algorithm','benefit','operating','supervised','film','actors',
             'web','scoring']
 
 
+
+'''root = etree.fromstring('<foo><bar>Data</bar><bar><baz>data</baz>'
+                        '<baz>sasa</baz></bar></foo>')
+
+tree = etree.ElementTree(root)
+for e in root.iter():
+    if "sasa" in str(etree.tostring(e,method="text")):
+        print (tree.getpath(e))
+'''       
 list_requests = ["2009011", "2009036", "2009067", "2009073", "2009074", "2009078", "2009085"]
 number_request = 0
 number_result = 1
@@ -52,6 +60,8 @@ df = pd.DataFrame([])
 files = glob.glob("../coll/*.xml")
 i=1
 number_of_words=0
+number_of_titles=0
+number_of_section=0
 query_stem = []
 for q in biglist:
     query_stem.append(ps.stem(q))
@@ -61,15 +71,21 @@ dict_path = {}
 for file in sorted(files):
     with open(file, encoding="utf8") as infile:
         soup = BeautifulSoup(infile, "xml")
-
         docno = soup.find("id").contents[0]
         score=0
         word_of_doc=0
         text=soup.get_text()
-        b = soup.get_text()
         dict_path[docno]={}
-        for query in list_queries:
-            index = list_queries.index(query)
+        xml = bytes(bytearray(soup.article.prettify(), encoding='utf-8')) 
+        a=etree.XML(xml)
+        parser = etree.XMLParser(ns_clean=True, recover=True, encoding='utf-8')
+        root = etree.fromstring(xml, parser=parser)
+        tree = etree.ElementTree(root)
+        number_of_section = number_of_section+ sum(1 for _ in root.iter("sec"))
+        number_of_titles = number_of_titles+ sum(1 for _ in root.iter("title"))
+        
+        '''for query in list_queries:
+            
             path= ''
             for w in query:
                 if w in b:
@@ -86,11 +102,29 @@ for file in sorted(files):
                                 for word_tab in reversed(tab):
                                     if word_tab in tags:
                                         path = path + word_tab + '/'
-            dict_path[docno][list_requests[index]]=path
-        print(dict_path)
-        x=''.join(map(lambda c: '' if c in '0123456789!@#$%^&*()[]{};:,./<>?\|`~-=_+' else c, text))
+            '''
+        x=''.join(map(lambda c: '' if c in '0123456789!@#$%^&*()[]{};:,./<>?\|`~-=_+' else c, text))            
         words = word_tokenize(x)
         wordsFiltered = []
+        paths=[]
+        index = list_queries.index(query)
+        occurence= {}
+        print(docno)
+        for w in biglist:
+            occurence[w]= 0
+            for e in root.iter("sec"):
+                if w in str(etree.tostring(e,encoding='UTF-8',method="text")):
+                    occurence[w] = occurence[w]+str(etree.tostring(e,encoding='UTF-8',method="text")).split().count(w)
+                    print (tree.getpath(e))
+            for e in root.iter(w):
+                if w in str(etree.tostring(e,encoding='UTF-8',method="text")):
+                    occurence[w] = occurence[w]+str(etree.tostring(e,encoding='UTF-8',method="text")).split().count(w)
+                    print (tree.getpath(e))
+        print(occurence)
+                    #print(w)
+                    
+                    #paths.append(tree.getpath(e))
+        #dict_path[docno][w]=paths
         for w in words:
             if w not in stopWords:
                 wordsFiltered.append(ps.stem(w))
@@ -125,7 +159,6 @@ print(df)
 for request in list_requests:
     #ltn function
     score_dict = {}
-
     ltc_sqrt = 0
     for i, row in df.iterrows():
         score=0
